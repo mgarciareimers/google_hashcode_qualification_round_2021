@@ -1,0 +1,2 @@
+# google_hashcode_qualification_round_2021
+Google Hashcode Qualification Round 2021 competition project
