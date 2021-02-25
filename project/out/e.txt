@@ -1,0 +1,143 @@
+33
+207
+2
+ejj-cah 1
+353
+2
+ejj-dfd 1
+451
+2
+ejj-efb 1
+115
+2
+ejj-bbf 1
+355
+2
+ejj-dff 1
+171
+2
+ejj-bhb 1
+211
+2
+ejj-cbb 1
+251
+2
+ejj-cfb 1
+485
+2
+ejj-eif 1
+325
+2
+ejj-dcf 1
+463
+2
+ejj-egd 1
+201
+2
+ejj-cab 1
+301
+2
+ejj-dab 1
+179
+2
+ejj-bhj 1
+337
+2
+ejj-ddh 1
+101
+2
+ejj-bab 1
+169
+2
+ejj-bgj 1
+247
+2
+ejj-ceh 1
+261
+2
+ejj-cgb 1
+381
+2
+ejj-dib 1
+385
+2
+ejj-dif 1
+267
+2
+ejj-cgh 1
+277
+2
+ejj-chh 1
+9
+2
+ejj-j 1
+43
+2
+ejj-ed 1
+65
+2
+ejj-gf 1
+173
+2
+ejj-bhd 1
+333
+2
+ejj-ddd 1
+347
+2
+ejj-deh 1
+379
+2
+ejj-dhj 1
+195
+2
+ejj-bjf 1
+323
+2
+ejj-dcd 1
+499
+250
+dji-ejj 1
+efa-ejj 1
+edc-ejj 1
+eic-ejj 1
+be-ejj 1
+chi-ejj 1
+dec-ejj 1
+bcc-ejj 1
+eda-ejj 1
+jc-ejj 1
+cfc-ejj 1
+cca-ejj 1
+ecg-ejj 1
+egc-ejj 1
+bci-ejj 1
+ehc-ejj 1
+eec-ejj 1
+eci-ejj 1
+cgc-ejj 1
+edg-ejj 1
+bgc-ejj 1
+cg-ejj 1
+fi-ejj 1
+deg-ejj 1
+eig-ejj 1
+dci-ejj 1
+cfi-ejj 1
+fg-ejj 1
+dae-ejj 1
+ie-ejj 1
+eee-ejj 1
+cig-ejj 1
+de-ejj 1
+cec-ejj 1
+cgg-ejj 1
+dic-ejj 1
+bhi-ejj 1
+ebi-ejj 1
+cfg-ejj 1
+dcc-ejj 1
+cbc-ejj 1
+dig-ejj 1
+cdc-ejj 1
+cda-ejj 1

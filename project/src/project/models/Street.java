@@ -9,7 +9,7 @@ public class Street {
 	public Street(String beginningIntersection, String endIntersection, String name, String crossingDuration) {
 		super();
 		
-		this.beginningIntersection = Integer.parseInt(crossingDuration);
+		this.beginningIntersection = Integer.parseInt(beginningIntersection);
 		this.endIntersection = Integer.parseInt(endIntersection);
 		this.name = name;
 		this.crossingDuration = Integer.parseInt(crossingDuration);

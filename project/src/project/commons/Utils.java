@@ -14,7 +14,9 @@ import java.util.Map;
 
 import project.models.Car;
 import project.models.Data;
+import project.models.Intersection;
 import project.models.Street;
+import project.models.StreetSchedule;
 
 public class Utils {		
 	// Method that reads the file.
@@ -27,18 +29,15 @@ public class Utils {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));
 			
 			// Read the next line;
-			System.out.println("> Reading first line...");
+			System.out.println("> Reading data...");
 			fileData = bufferedReader.readLine().split(Constants.ONE_SPACE);
 			
 			Data data = new Data(fileData[0], fileData[1], fileData[2], fileData[3], fileData[4]);
 			
-			// Define streets.
-			Map<String, Street> mapStreets = new HashMap<>();
-						
+			// Define streets.			
 			for (int i = 0; i < data.getNumberStreets(); i++) {
 				fileData = bufferedReader.readLine().split(Constants.ONE_SPACE);
-				data.getStreets().add(new Street(fileData[0], fileData[1], fileData[2], fileData[3]));
-				mapStreets.put(data.getStreets().get(data.getStreets().size() - 1).getName(), data.getStreets().get(data.getStreets().size() - 1));
+				data.getStreets().put(fileData[2], new Street(fileData[0], fileData[1], fileData[2], fileData[3]));
 			}
 			
 			// Define cars.			
@@ -49,13 +48,36 @@ public class Utils {
 				
 				// Gets streets of car.
 				List<Street> carStreets = new ArrayList<>();
+				List<Integer> intersectionIds = new ArrayList<>();
 					
 				for (int j = 1; j <= numberStreets; j++) {
-					carStreets.add(mapStreets.get(fileData[j]));
+					carStreets.add(data.getStreets().get(fileData[j]));
+					intersectionIds.add(data.getStreets().get(fileData[j]).getEndIntersection());
 				} 
 				
-				
-				data.getCars().add(new Car(numberStreets, carStreets));
+				data.getCars().add(new Car(numberStreets, carStreets, intersectionIds));
+			}
+			
+			Collections.sort(data.getCars(), new Comparator<Car>() {
+				@Override
+				public int compare(Car c1, Car c2) {
+					Integer c1MinDuration = c1.getMinDuration();
+					Integer c2MinDuration = c2.getMinDuration();
+					
+					return c1MinDuration.compareTo(c2MinDuration);
+				}
+			});
+			
+			// Define intersections.
+			for (int i = 0; i < data.getNumberIntersections(); i++) {
+				data.getIntersections().add(new Intersection(i));
+			}
+			
+			List<Street> streets = new ArrayList<Street>(data.getStreets().values());
+			
+			for (Street street : streets) {
+				data.getIntersections().get(street.getBeginningIntersection()).getOutStreets().add(street);
+				data.getIntersections().get(street.getEndIntersection()).getInStreets().add(street);
 			}
 			
 			// Close the file.
@@ -69,9 +91,11 @@ public class Utils {
 	}
 	
 	// Method that writes the output file, creating it previously in case it does not exist.
-	public static void writeFile(String filePath) {
+	public static void writeFile(Data data, String filePath) {
 		FileWriter file = null;
 		PrintWriter printWriter = null;
+		
+		System.out.println("> Writing output file...");
 		
 		try {
 			// Create the printer.
@@ -79,14 +103,24 @@ public class Utils {
 			printWriter = new PrintWriter(file);
 			
 			// Create the output.
-			String output = Integer.toString(0);
+			int numberIntersections = 0;
 			
-			for (int i = 1; i < 10; i++) {
-				output = output.concat(Constants.BREAK_LINE).concat(Integer.toString(i));
+			String output = Constants.EMPTY_STRING;
+			
+			for (Intersection intersection : data.getIntersections()) {
+				if (intersection.getSchedules().size() > 0) {
+					numberIntersections++;
+					output = output.concat(Constants.BREAK_LINE).concat(Integer.toString(intersection.getId()));
+					output = output.concat(Constants.BREAK_LINE).concat(Integer.toString(intersection.getInStreets().size()));
+					
+					for (StreetSchedule schedule : intersection.getSchedules()) {
+						output = output.concat(Constants.BREAK_LINE).concat(schedule.getName()).concat(Constants.ONE_SPACE).concat(Integer.toString(schedule.getDuration()));
+					}
+				}
 			}
 			
 			// Print the output in the file.
-			printWriter.print(output);
+			printWriter.print(Integer.toString(numberIntersections).concat(output));
 		} catch (IOException e) {
 			System.out.println("> Error while writing the output file: " + e);
 		} finally {

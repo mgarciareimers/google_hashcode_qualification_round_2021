@@ -2,17 +2,22 @@ package project;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import project.commons.Constants;
 import project.commons.Utils;
+import project.models.Car;
 import project.models.Data;
+import project.models.Intersection;
+import project.models.Street;
+import project.models.StreetSchedule;
 
 public class Main {
 	private final static String USER_DIR = "user.dir";
 	private final static String INPUT_DATA_PATH = "/in";
-	private final static String OUTPUT_DATA_PATH = "/out";
-	private final static String OUTPUT_FILE_EXTENSION = ".out";
+	private final static String OUTPUT_DATA_PATH = "/out/";
 
 	private static File inputFile = null;
 	private static Data data = null;
@@ -24,9 +29,10 @@ public class Main {
 		
 		data = Utils.readFile(inputFile.getPath());
 		
-		System.out.println();
+		arrangeIntersectionSchedulesEasy();
+		//arrangeIntersectionSchedules();
 		
-		// Utils.writeFile(OUTPUT_DATA_PATH.concat(inputFile.getName()).concat(OUTPUT_FILE_EXTENSION));
+		Utils.writeFile(data, System.getProperty(USER_DIR).concat(OUTPUT_DATA_PATH).concat(inputFile.getName()));
 	}
 	
 	// Method that asks the user for the file to read and selects it saving it in "inputFile" variable.
@@ -64,5 +70,58 @@ public class Main {
 			selectInputFile();
 		}
 	}
-
+	
+	// Method that arranges the intersection schedules (easy).
+	private static void arrangeIntersectionSchedulesEasy() {
+		System.out.println("> Preparing intersections (easy)...");
+		for (Intersection intersection : data.getIntersections()) {
+			for (Street street : intersection.getInStreets()) {
+				intersection.getSchedules().add(new StreetSchedule(street.getName(), 1));
+			}
+		}
+	}
+	
+	// Method that arranges the intersection schedules.
+	private static void arrangeIntersectionSchedules() {
+		System.out.println("> Preparing intersections...");
+		
+		for (Car car : data.getCars()) {
+			int arrivalTime = 0;
+			int streetIndex = 0;
+					
+			for (int intersectionId : car.getIntersectionIds()) {
+				data.getIntersections().get(intersectionId).getArrivals().add(new StreetSchedule(car.getStreets().get(streetIndex).getName(), arrivalTime));
+				
+				arrivalTime = arrivalTime + car.getStreets().get(streetIndex).getCrossingDuration();
+				streetIndex++;
+			}
+		}
+		
+		Collections.sort(data.getIntersections(), new Comparator<Intersection>() {
+			@Override
+			public int compare(Intersection i1, Intersection i2) {
+				Integer i1Size = i1.getArrivals().size();
+				Integer i2Size = i2.getArrivals().size();
+				
+				return i1Size.compareTo(i2Size);
+			}
+		});	
+	
+		for (Intersection intersection : data.getIntersections()) {
+			for (int i = 0; i < intersection.getArrivals().size(); i++) {
+				boolean equal = false;
+				for (int j = 0; j < intersection.getArrivals().size(); j++) {
+					if (i != j && intersection.getArrivals().get(i).getName().equals(intersection.getArrivals().get(j).getName())) {
+						equal = true;
+						break;
+					}
+					
+				}
+				
+				if (!equal) {					
+					intersection.getSchedules().add(new StreetSchedule(intersection.getArrivals().get(i).getName(), 1));
+				}
+			}
+		}
+	}
 }

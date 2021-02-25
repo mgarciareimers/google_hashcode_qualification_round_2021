@@ -1,7 +1,9 @@
 package project.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Data {
 	private int duration;
@@ -10,8 +12,9 @@ public class Data {
 	private int numberCars;
 	private int bonusPoints;
 	
-	private List<Street> streets;
+	private Map<String, Street> streets;
 	private List<Car> cars;
+	private List<Intersection> intersections;
 	
 	public Data(String duration, String numberIntersections, String numberStreets, String numberCars, String bonusPoints) {
 		super();
@@ -22,8 +25,9 @@ public class Data {
 		this.numberCars = Integer.parseInt(numberCars);
 		this.bonusPoints = Integer.parseInt(bonusPoints);
 		
-		this.streets = new ArrayList<>();
+		this.streets = new HashMap<>();
 		this.cars = new ArrayList<>();
+		this.intersections = new ArrayList<>();
 	}
 
 	public int getDuration() {
@@ -66,11 +70,11 @@ public class Data {
 		this.bonusPoints = bonusPoints;
 	}
 
-	public List<Street> getStreets() {
+	public Map<String, Street> getStreets() {
 		return streets;
 	}
 
-	public void setStreets(List<Street> streets) {
+	public void setStreets(Map<String, Street> streets) {
 		this.streets = streets;
 	}
 
@@ -80,5 +84,13 @@ public class Data {
 
 	public void setCars(List<Car> cars) {
 		this.cars = cars;
+	}
+
+	public List<Intersection> getIntersections() {
+		return intersections;
+	}
+
+	public void setIntersections(List<Intersection> intersections) {
+		this.intersections = intersections;
 	}
 }
