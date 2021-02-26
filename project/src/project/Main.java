@@ -29,8 +29,7 @@ public class Main {
 		
 		data = Utils.readFile(inputFile.getPath());
 		
-		arrangeIntersectionSchedulesEasy();
-		//arrangeIntersectionSchedules();
+		arrangeIntersectionSchedules();
 		
 		Utils.writeFile(data, System.getProperty(USER_DIR).concat(OUTPUT_DATA_PATH).concat(inputFile.getName()));
 	}
@@ -72,55 +71,11 @@ public class Main {
 	}
 	
 	// Method that arranges the intersection schedules (easy).
-	private static void arrangeIntersectionSchedulesEasy() {
+	private static void arrangeIntersectionSchedules() {
 		System.out.println("> Preparing intersections (easy)...");
 		for (Intersection intersection : data.getIntersections()) {
 			for (Street street : intersection.getInStreets()) {
 				intersection.getSchedules().add(new StreetSchedule(street.getName(), 1));
-			}
-		}
-	}
-	
-	// Method that arranges the intersection schedules.
-	private static void arrangeIntersectionSchedules() {
-		System.out.println("> Preparing intersections...");
-		
-		for (Car car : data.getCars()) {
-			int arrivalTime = 0;
-			int streetIndex = 0;
-					
-			for (int intersectionId : car.getIntersectionIds()) {
-				data.getIntersections().get(intersectionId).getArrivals().add(new StreetSchedule(car.getStreets().get(streetIndex).getName(), arrivalTime));
-				
-				arrivalTime = arrivalTime + car.getStreets().get(streetIndex).getCrossingDuration();
-				streetIndex++;
-			}
-		}
-		
-		Collections.sort(data.getIntersections(), new Comparator<Intersection>() {
-			@Override
-			public int compare(Intersection i1, Intersection i2) {
-				Integer i1Size = i1.getArrivals().size();
-				Integer i2Size = i2.getArrivals().size();
-				
-				return i1Size.compareTo(i2Size);
-			}
-		});	
-	
-		for (Intersection intersection : data.getIntersections()) {
-			for (int i = 0; i < intersection.getArrivals().size(); i++) {
-				boolean equal = false;
-				for (int j = 0; j < intersection.getArrivals().size(); j++) {
-					if (i != j && intersection.getArrivals().get(i).getName().equals(intersection.getArrivals().get(j).getName())) {
-						equal = true;
-						break;
-					}
-					
-				}
-				
-				if (!equal) {					
-					intersection.getSchedules().add(new StreetSchedule(intersection.getArrivals().get(i).getName(), 1));
-				}
 			}
 		}
 	}
